@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.ers.dao.UserDao;
 import com.ers.dao.UserRoleDao;
 import com.ers.models.User;
+import com.ers.models.UserRole;
 import com.ers.service.UserService;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -17,6 +18,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class LoginController {
 	
@@ -52,18 +54,32 @@ public class LoginController {
 			System.out.println("Inside the handler");
 	    	User log = uServ.signIn(username, password);
 	    	System.out.println(log);
-			//We will keep track of if the user is logged in by storing their id in the session
-			req.getSession().setAttribute("userid", log.getUserId());
+	    	int id = log.getUserId();
+	    	int role = log.getUserRole().getUserRoleId();
+	    	
+			req.getSession().setAttribute("userid", id);
+			req.getSession().setAttribute("userRole", role);
 			res.setStatus(HttpServletResponse.SC_OK);
 			res.addHeader("Access-Control-Allow-Origin", "*");
 			res.setHeader("Access-Control-Allow-Methods", "POST");
-			res.getWriter().write(new ObjectMapper().writeValueAsString(log));
+			
+			ObjectNode user = mapper.createObjectNode();
+			
+	    	user.put("userId", id);
+	    	user.put("userRole", role);
+	    	
+			res.getWriter().write(new ObjectMapper().writeValueAsString(user));
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 			res.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			res.getWriter().println("Username or password incorrect");
 		}
+	}
+
+	public static void doLogin() {
+		// TODO Auto-generated method stub
+		
 	}
 	  		
 }

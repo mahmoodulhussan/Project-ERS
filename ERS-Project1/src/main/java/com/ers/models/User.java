@@ -2,6 +2,7 @@ package com.ers.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -54,11 +55,14 @@ public class User {
 	public UserRole userRole;
     
     @OneToMany(mappedBy="user", cascade=CascadeType.ALL)
-    @JsonBackReference
+//    @JsonBackReference
+    @JsonIgnore
 	private List<Reimbursement> reimb;
     
     @OneToMany(mappedBy="author", fetch=FetchType.LAZY)
+    @JsonIgnore
 	private List<Reimbursement> authorList = new ArrayList<>();
+    @JsonIgnore
 	@OneToMany(mappedBy="resolver", fetch=FetchType.LAZY)
 	private List<Reimbursement> resolverList = new ArrayList<>();
 	
@@ -180,6 +184,28 @@ public class User {
 
 	public void setResolverList(List<Reimbursement> resolverList) {
 		this.resolverList = resolverList;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(authorList, email, firstName, lastName, password, reimb, resolverList, userId, userRole,
+				username);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return Objects.equals(authorList, other.authorList) && Objects.equals(email, other.email)
+				&& Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName)
+				&& Objects.equals(password, other.password) && Objects.equals(reimb, other.reimb)
+				&& Objects.equals(resolverList, other.resolverList) && userId == other.userId
+				&& Objects.equals(userRole, other.userRole) && Objects.equals(username, other.username);
 	}
 
 	@Override

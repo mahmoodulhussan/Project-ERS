@@ -1,3 +1,4 @@
+import java.io.BufferedReader;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -7,6 +8,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.management.relation.Role;
+
+import com.ers.controllers.LoginController;
 import com.ers.dao.ReimbursementDao;
 import com.ers.dao.ReimbursementTypeDao;
 import com.ers.dao.UserDao;
@@ -16,17 +20,22 @@ import com.ers.models.ReimbursementStatus;
 import com.ers.models.ReimbursementType;
 import com.ers.models.User;
 import com.ers.models.UserRole;
+import com.ers.service.UserService;
 import com.ers.utils.HibernateUtil;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Driver {
 	
 	private static UserDao uDao = new UserDao();
+	private static UserService uServ = new UserService();
 	private static UserRoleDao uRoleDao = new UserRoleDao();
 	public static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("MM-DD-YYYY HH:mm:ss");
 
-	
-	
+		
 	public static void main(String[] args) {
+		
+		LoginController.doLogin();
 		
 		String jbdcUrl = "jdbc:postgresql://project0.ckdtjvwcstp8.us-east-2.rds.amazonaws.com:5432/project1";
 		String user = "mudi";

@@ -4,7 +4,7 @@ let userId;
 
 
 let verifyLoggedIn = async() => {
-	let res = await fetch('http://localhost:8080/project1/getSession');
+	let res = await fetch('hhttp://localhost:8080/ERS-Project1/getSession');
 	let obj = await res.json();
 
 	if (obj.userid < 0) {
@@ -20,7 +20,7 @@ document.getElementById("detailed").addEventListener('click', () => {
 });
 
 document.getElementById("logout").addEventListener('click', async () => {
-	let res = await fetch('http://localhost:8080/project1/logout');
+	let res = await fetch('http://localhost:8080/ERS-Project1/doLogout');
 	userId = -1;
 	verifyLoggedIn();
 });
@@ -40,7 +40,7 @@ document.getElementById("new-ticket").addEventListener('click', () => {
 /* Fetching Reimbursements and Dom manipulation functions */
 
 let retreiveAllReimbursements = async () => {
-	let res = await fetch(`http://localhost:8080/project1/getAllReimbursementsById?id=${userId}`);
+	let res = await fetch(`http://localhost:8080/ERS-Project1/getAllReimbursementsById?id=${userId}`);
 	let obj = await res.json();
 
 	console.log(obj);
@@ -51,7 +51,7 @@ let populateTable = (objList) => {
 
 	let table = document.getElementById("re-table");
 
-	table.innerHTML = '<tr><th>STATUS</th><th>TYPE</th><th>AMOUNT</th><th>SUBMITTED DATE</th><th>RESOLVED DATE</th><th>RESOLVED BY</th></tr>';
+	table.innerHTML = '<tr><th>REIMBURSEMENT STATUS</th><th>REIMBURSEMENT TYPE</th><th>REIMBURSEMENT AMOUNT</th><th>DATE OF SUBMISSION</th><th>DATE OF RESOLUTION</th><th>REIMBURSEMENT RESOLVER</th></tr>';
 
 
 	objList.forEach((obj) =>{
@@ -97,12 +97,12 @@ let submitTicket = async (e) => {
 	let desc = document.getElementById("desc").value;
 	
 	if (!amount || !date || !desc) {
-		alert("You must completely fill out the submission form!");
+		alert("Please fill the empty fields");
 		document.getElementById("re-form").reset();
 		return;
 	}
 	else if(amount<=0){
-		alert("You must enter a positive amount to be reimbursed!");
+		alert("Negative amount doesn't make sense, please enter positive amount");
 		document.getElementById("re-form").reset();
 		return;
 	}
@@ -117,7 +117,7 @@ let submitTicket = async (e) => {
 			author: userId
 		};
 
-		let req = await fetch('http://localhost:8080/project1/newReimbursement', {
+		let req = await fetch('http://localhost:8080/ERS-Project1/addNewReimbursement', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -142,7 +142,7 @@ document.getElementById("send").addEventListener('click', submitTicket);
 
 let init = async () => {
 	await verifyLoggedIn();
-	let res = await fetch(`http://localhost:8080/project1/getUser?userid=${userId}`);
+	let res = await fetch(`http://localhost:8080/ERS-Project1/getUser?userid=${userId}`);
 	let user = await res.json();
 	let username = user.username;
 	document.getElementById("welcome").innerText = `Welcome ${username}!`;

@@ -1,6 +1,7 @@
 package com.ers.models;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 //@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 @Entity
 @Table(name="ers_status")
-@JsonIgnoreProperties(value= {"hibernateLazyInitializer", "handler"})
+//@JsonIgnoreProperties(value= {"hibernateLazyInitializer", "handler"})
 public class ReimbursementStatus {
 
 	@Id
@@ -67,6 +68,24 @@ public class ReimbursementStatus {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(ersList, status, statusId);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ReimbursementStatus other = (ReimbursementStatus) obj;
+		return Objects.equals(ersList, other.ersList) && Objects.equals(status, other.status)
+				&& statusId == other.statusId;
 	}
 
 	@Override

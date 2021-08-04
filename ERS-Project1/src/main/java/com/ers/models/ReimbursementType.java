@@ -1,6 +1,7 @@
 package com.ers.models;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 //@JsonAutoDetect(fieldVisibility = Visibility.ANY)
@@ -30,6 +32,7 @@ public class ReimbursementType {
 		private String reimbType;
 		
 		@OneToMany(mappedBy="ersType", fetch=FetchType.LAZY)
+		@JsonIgnore
 		private List<Reimbursement> ersList;
 		
 		public ReimbursementType() {
@@ -61,6 +64,24 @@ public class ReimbursementType {
 
 		public void setReimbType(String reimbType) {
 			this.reimbType = reimbType;
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(ersList, reimbType, typeId);
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			ReimbursementType other = (ReimbursementType) obj;
+			return Objects.equals(ersList, other.ersList) && Objects.equals(reimbType, other.reimbType)
+					&& typeId == other.typeId;
 		}
 
 		@Override

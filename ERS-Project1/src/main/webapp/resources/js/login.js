@@ -64,18 +64,19 @@ const login = async (e) => {
 		body: JSON.stringify(uObj),
 	});
 
-//	if (req.status !== 200) {
-//		alert("Username or password are incorrect");
-//		return;
-//	}
-//	else {
+	if (req.status !== 200) {
+		alert("Username or password are incorrect");
+		return;
+	}
+	else {
 		let res = await req.json();
-//	if (res.userType == 0) { 
+	if (res.userRole == 1) { 
+		
 			location.href = '../html/employee-dashboard.html';
-//		} else {
-//			location.href = '../html/manager-dashboard.html';
-//		}
-//	}
+		} else {
+			location.href = '../html/manager-dashboard.html';
+		}
+	}
 
 }
 

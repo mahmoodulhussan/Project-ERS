@@ -45,7 +45,7 @@ public static void process(HttpServletRequest req, HttpServletResponse res) thro
 		case "/ERS-Project1/filterByStatus":
 			ReimbursementController.filterByStatus(req, res);
 			break;
-		case "/project1/addNewReimbursement":
+		case "/ERS-Project1/addNewReimbursement":
 			ReimbursementController.addNewReimbursement(req, res);
 			break;
 //		case "/project1/approveReimbursement":

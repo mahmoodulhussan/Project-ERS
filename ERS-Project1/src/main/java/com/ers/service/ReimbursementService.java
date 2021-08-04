@@ -39,14 +39,14 @@ public class ReimbursementService {
 		return rDao.selectByReimbursementStatus(status);
 	}
 	
-//	public Reimbursement addReimbursement(User u, int reimbAmount, String reimbSubmitted, String reimbDescription, User author, ReimbursementType ersType) {
-//		Reimbursement r = new Reimbursement(u, reimbAmount, reimbSubmitted, reimbDescription, author, ersType);
-//		rDao.insertReimbursement(r);
-//		List<Reimbursement> rList = u.getReimb();
-//		rList.add(r);
-//		uDao.updateUser(u);
-//		return r;
-//	}
+	public Reimbursement addReimbursement(User u, int reimbAmount, String reimbSubmitted, String reimbDescription, User author, ReimbursementType ersType) {
+		Reimbursement r = new Reimbursement(u, reimbAmount, reimbSubmitted, reimbDescription, author, ersType);
+		rDao.insertReimbursement(r);
+		List<Reimbursement> rList = u.getReimb();
+		rList.add(r);
+		uDao.updateUser(u);
+		return r;
+	}
 	
 	public List<Reimbursement> selectAllReimbursements(){
 		return rDao.selectAll();
@@ -60,15 +60,15 @@ public class ReimbursementService {
 		return rDao.selectByAuthorUserName(username);
 	}
 	
-//	public List<Reimbursement> selectReimbursementToResolveBySesUser(String username){
-//		User sesUser = uDao.selectByUserName(username);
-//		return rDao.selectReimbursementToProcess(sesUser);
-//	}
-//	
-//	public List<Reimbursement> selectReimbursementToResolveBySesUser(String username, String filter){
-//		User sesUser = uDao.selectByUserName(username);
-//		return rDao.selectReimbursementToProcess(sesUser, filter);
-//	}
+	public List<Reimbursement> selectReimbursementToResolveBySesUser(String username){
+		User sesUser = uDao.selectByUserName(username);
+		return rDao.selectReimbursementToProcess(sesUser);
+	}
+	
+	public List<Reimbursement> selectReimbursementToResolveBySesUser(String username, String filter){
+		User sesUser = uDao.selectByUserName(username);
+		return rDao.selectReimbursementToProcess(sesUser, filter);
+	}
 	
 //	public boolean initReq(String username, String reimbSubmitted, String reimbType, String reimbAmount, String reimbDesc) {
 //		Integer reimbInt;

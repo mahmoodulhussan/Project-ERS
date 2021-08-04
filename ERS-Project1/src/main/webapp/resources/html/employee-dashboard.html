@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Project 1 - Expense Reimbursement System</title>
+<title>Expense Reimbursement System</title>
 <link rel="stylesheet" href="../css/navbar.css">
 <link rel="stylesheet" href="../css/employee.css">
 <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -13,37 +13,37 @@
 <body>
 	<div class="navbar">
 		<ul class="nav-items">
-			<li class="nav-item">Home</li>
-			<li class="nav-item" id="detailed">Detailed View</li>
-			<li class="nav-item" id="logout">Logout</li>
+			<li class="nav-item">HOME</li>
+			<li class="nav-item" id="detailed">ACTIONS</li>
+			<li class="nav-item" id="logout">LOGOUT</li>
 		</ul>
 	</div>
 	<div class="container">
-		<h2 id="welcome">Welcome #Placerholder#!</h2>
+	<!--	<h3 id="welcome">Welcome #Placerholder#!</h3>  -->
 
 		<div class="reimbursements">
-			<h3 id="re-name">#Placeholders# Reimbursements</h3>
+			<h1 id="re-name">YOUR REIMBURSEMENT HISTORY</h1>
 			<table id="re-table" class="reimbursement-table">
 				<tr>
-					<th>STATUS</th>
-					<th>TYPE</th>
-					<th>AMOUNT</th>
-					<th>SUBMITTED DATE</th>
-					<th>RESOLVED DATE</th>
-					<th>RESOLVED BY</th>
+					<th>REIMBURSEMENT STATUS</th>
+					<th>REIMBURSEMENT TYPE</th>
+					<th>REIMBURSEMENT AMOUNT</th>
+					<th>DATE OF SUBMISSION</th>
+					<th>DATE OF RESOLUTION</th>
+					<th>REIMBURSEMENT RESOLVER</th>
 				</tr>
 			</table>
 			<!-- When this button is clicked I will manipulate the dom and add a form that you can fill out -->
-			<button id="new-ticket">Submit a new reimbursement ticket</button>
+			<button id="new-ticket">REQUEST A REIMBURSEMENT</button>
 			<div class="new-reimbursement" id="new-reimbursement">
 				<form id="re-form">
-					<h4>Reimbursement Amount</h4>
-					<input type='number' id="amount" placeholder="0.00" />
+					<h4>HOW MUCH MONEY DID YOU SPEND?</h4>
+					<input type='number' id="amount" placeholder="$" />
 
-					<h4>Date of the expenditure</h4>
-					<input type="date" id="date"/>
+					<h4>WHEN DID YOU SPEND THE MONEY? ENTER THE DATE BELOW</h4>
+					<input type="text" id="date"/>
 
-					<h4>Select the type of expenditure</h4>
+					<h4>WHAT DID YOU SPEND THE MONEY ON?</h4>
 					<select name="types" id="types">
 						<option value=0>Lodging</option>
 						<option value=1>Travel</option>
@@ -51,7 +51,7 @@
 						<option value=3>Other</option>
 					</select>
 
-					<h4>Please Write the Description of the Expense</h4>
+					<h4>PLEASE WRITE SOME MORE DETAILS ABOUT YOUR EXPENSE BELOW</h4>
 					<textarea id="desc" rows="5" cols="50" maxlength="250"></textarea>
 
 					<button class='send' type='submit' id="send">Submit</button>
@@ -60,5 +60,6 @@
 		</div>
 	</div>
 	<script src="../js/employee.js"></script>
+	<script src="../js/logout.js"></script>
 </body>
 </html>

@@ -89,7 +89,7 @@ public class ReimbursementController {
 
 			ReimbursementType type = rServ.getReimbursementType(ersType);
 			
-//			rServ.addReimbursement(u, reimbAmount, reimbSubmitted, reimbDescription, a, type);
+			rServ.addReimbursement(u, reimbAmount, reimbSubmitted, reimbDescription, a, type);
 			
 			ObjectNode ret = mapper.createObjectNode();
 			ret.put("message", "successfully submitted a new reimbursment");
