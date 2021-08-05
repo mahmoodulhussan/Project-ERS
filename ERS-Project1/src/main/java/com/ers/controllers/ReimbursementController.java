@@ -48,14 +48,14 @@ public class ReimbursementController {
 	public static void getAllById(HttpServletRequest req, HttpServletResponse res)
 			throws JsonProcessingException, IOException {
 
-		Integer uId = Integer.parseInt(req.getParameter("id"));
+		Integer id = Integer.parseInt(req.getParameter("id"));
 		List<Reimbursement> rList = rServ.selectAllReimbursements();
 		System.out.println(rList);
 		List<Reimbursement> retList = new ArrayList<>();
 		for (int i = 0; i < rList.size(); i++) {
 			Reimbursement ret = rList.get(i);
 			
-			if (ret.getAuthor().equals(uId)) {
+			if (ret.getAuthor().getUserId() == id ) {
 				retList.add(ret);
 			}
 		}

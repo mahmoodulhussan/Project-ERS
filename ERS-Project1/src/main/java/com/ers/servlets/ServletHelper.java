@@ -33,7 +33,7 @@ public static void process(HttpServletRequest req, HttpServletResponse res) thro
 		case "/ERS-Project1/getUser":
 			GetUserController.getUser(req, res);
 			break;
-		case "/ERS-Project1/logout":
+		case "/ERS-Project1/doLogout":
 			LogoutController.doLogout(req, res);
 			break;
 		case "/ERS-Project1/getAllReimbursements":
