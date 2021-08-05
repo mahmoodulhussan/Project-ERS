@@ -4,7 +4,7 @@ let userId;
 
 
 let verifyLoggedIn = async() => {
-	let res = await fetch('hhttp://localhost:8080/ERS-Project1/getSession');
+	let res = await fetch('http://localhost:8080/ERS-Project1/getSession');
 	let obj = await res.json();
 
 	if (obj.userid < 0) {
@@ -40,7 +40,7 @@ document.getElementById("new-ticket").addEventListener('click', () => {
 /* Fetching Reimbursements and Dom manipulation functions */
 
 let retreiveAllReimbursements = async () => {
-	let res = await fetch(`http://localhost:8080/ERS-Project1/getAllReimbursementsById?id=${userId}`);
+	let res = await fetch(`http://localhost:8080/ERS-Project1/getAllById?id=${userId}`);
 	let obj = await res.json();
 
 	console.log(obj);

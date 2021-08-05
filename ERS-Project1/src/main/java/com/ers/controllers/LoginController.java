@@ -76,10 +76,5 @@ public class LoginController {
 			res.getWriter().println("Username or password incorrect");
 		}
 	}
-
-	public static void doLogin() {
-		// TODO Auto-generated method stub
-		
-	}
 	  		
 }
