@@ -206,21 +206,7 @@ public class TestReimbursementService {
 			
 		}
 		
-		
-		
-		@Test
-		public void testGetMe() {
-			String expected = "Me";
-			String actual = rServ.getMe();
-			assertEquals(expected,actual);
-		}
-		
-		@Test
-		public void testGetNotMe() {
-			String expected = "Me";
-			String actual = rServ.getNotMe();
-			assertEquals(expected,actual);
-		}
+	
 //		@Test
 //		public void testDeleteReimbursement() {
 //			
