@@ -70,6 +70,8 @@ public class ReimbursementService {
 		return rDao.selectReimbursementToProcess(sesUser, filter);
 	}
 	
+	
+	
 //	public boolean initReq(String username, String reimbSubmitted, String reimbType, String reimbAmount, String reimbDesc) {
 //		Integer reimbInt;
 //		try {
@@ -99,6 +101,33 @@ public class ReimbursementService {
 ////		rDao.updateReimbursement(reqInt, resUser, resTime, resStatus);
 //		return true;
 //	}
-
+	public List<Reimbursement> getAllPendingReimbursements(){
+		return rDao.getAllPendingReimbursments();
+	}
+	
+	public List<Reimbursement> getAllAcceptedReimbursements(){
+		return rDao.getAllAcceptedReimbursments();
+	}
+	
+	public List<Reimbursement> getAllDeniedReimbursements(){
+		return rDao.getAllDeniedReimbursments();
+	}
+	
+	public List<Reimbursement> getAllReimbursementsForUser(User u){
+		List<Reimbursement> superList = new ArrayList<Reimbursement>();
+		List<Reimbursement> a = rDao.getAllAcceptedReimbursmentsForUser(u);
+		for(Reimbursement re:a) {
+			superList.add(re);
+		}
+		List<Reimbursement> p = rDao.getAllPendingReimbursmentsForUser(u);
+		for(Reimbursement r:p) {
+			superList.add(r);
+		}
+		List<Reimbursement> d = rDao.getAllDeniedReimbursmentsForUser(u);
+		for(Reimbursement rd:d) {
+			superList.add(rd);
+		}
+		return superList;
+	}
 
 }
