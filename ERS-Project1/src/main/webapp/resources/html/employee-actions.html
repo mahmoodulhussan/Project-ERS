@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>ERS Employee Actions</title>
+<link rel="stylesheet" href="../css/navbar.css">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" href="../css/employee.css">
+</head>
+<body>
+	<div class="navbar">
+		<ul class="nav-items">
+			<li class="nav-item" id="home">HOME</li>
+			<li class="nav-item">ACTIONS</li>
+			<li class="nav-item" id="logout">LOGOUT</li>
+		</ul>
+	</div>
+	<div class="container">
+		<h2 id="welcome">Welcome #Placerholder#!</h2>
+
+		<div class="reimbursements">
+			<h3 id="re-name">#Placeholders# Reimbursements</h3>
+	<!-- 		<button id="filter">Filter Reimbursements by Status</button> -->
+			<select name="status" id="status">
+				<option value=3>Pending</option>
+				<option value=4>Approved</option>
+				<option value=5>Denied</option>
+				<option value=3>SHOW ALL</option>
+			</select>
+			<button id="filter">Filter Reimbursements by Status</button>
+			<table id="re-table" class="reimbursement-table">
+				<tr>
+					<th>TICKET ID</th>
+					<th>STATUS</th>
+					<th>TYPE</th>
+					<th>AMOUNT</th>
+					<th>SUBMITTED DATE</th>
+					<th>RESOLVED DATE</th>
+					<th>RESOLVED BY</th>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<script src="../js/employee-detailed.js"></script>
+	<script src="../js/logout.js"></script>
+</body>
+</html>

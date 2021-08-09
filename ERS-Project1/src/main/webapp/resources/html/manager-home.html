@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>ERS Manager Home</title>
+<link rel="stylesheet" href="../css/navbar.css">
+<link rel="stylesheet" href="../css/manager.css">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+	rel="stylesheet">
+</head>
+<body>
+	<div class="navbar">
+		<ul class="nav-items">
+			<li class="nav-item">HOME</li>
+			<li class="nav-item" id="review">ACTIONS</li>
+			<li class="nav-item" id="userinfo">USER INFO</li>
+			<li class="nav-item" id="logout">LOGOUT</li>
+		</ul>
+	</div>
+	<div class="container">
+		<h2 id="welcome">Welcome #Placerholder#!</h2>
+		<div class="reimbursements">
+			<h3>BELOW ARE ALL THE REIMBURSEMENT REQUESTS FROM EMPLOYEES</h3>
+			<h3>YOU CAN FILTER THE REIMBURSEMENTS BY THEIR STATUS BELOW</h3>
+			<select name="status" id="status">
+				<option value=0>PENDING</option>
+				<option value=1>APPROVED</option>
+				<option value=2>DENIED</option>
+				<option value=3>Show All</option>
+			</select>
+			<button id="filter">FILTER</button>
+			<table id="re-table" class="reimbursement-table">
+			</table>
+		</div>
+	</div>
+	<script src="../js/manager-dashboard.js"></script>
+	<script src="../js/logout.js"></script>
+</body>
+</html>

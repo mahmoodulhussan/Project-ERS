@@ -3,8 +3,9 @@
 let userid;
 
 let verifyLoggedIn = async () => {
-	let res = await fetch('http://localhost:8080/project1/getSession');
+	let res = await fetch('http://localhost:8080/ERS-Project/api/getSession');
 	let obj = await res.json();
+	console.log(obj);
 
 	if (obj.userid < 0) {
 		location.href = "../html/index.html";
@@ -15,13 +16,13 @@ let verifyLoggedIn = async () => {
 }
 
 document.getElementById("logout").addEventListener('click', async () => {
-	let res = await fetch('http://localhost:8080/project1/logout');
+	let res = await fetch('http://localhost:8080/ERS-Project/api/logout');
 	userId = -1;
 	verifyLoggedIn();
 });
 
 document.getElementById("home").addEventListener('click', () => {
-	location.href = "../html/employee-dashboard.html";
+	location.href = "../html/employee-home.html";
 });
 
 /* Reimbursement functions */
@@ -30,40 +31,40 @@ let populateTable = (obj) => {
 
 	let table = document.getElementById("re-table");
 
-	table.innerHTML = '<tr><th>TICKET ID</th><th>STATUS</th><th>TYPE</th><th>AMOUNT</th><th>SUBMITTED DATE</th><th>RESOLVED DATE</th><th>RESOLVED BY</th></tr>';
+	table.innerHTML = '<tr><th>REIMBURSEMENT ID</th><th>REIMBURSEMENT STATUS</th><th>REIMBURSEMENT TYPE</th><th>REIMBURSEMENT AMOUNT</th><th>DATE OF SUBMISSION</th><th>DATE OF RESOLUTION</th><th>RESOLVED BY</th></tr>';
 
 	obj.forEach((obj) => {
 		let index = 1;
 
 		let row = table.insertRow(index++);
-		row.id = obj.reId;
+		row.id = obj.id;
 
 		let ticketId = row.insertCell(0);
-		ticketId.innerHTML = obj.reId;
+		ticketId.innerHTML = obj.id;
 
 		let status = row.insertCell(1);
-		status.innerHTML = obj.statusString;
+		status.innerHTML = obj.status.reimbursement_status;
 
 		let type = row.insertCell(2);
-		type.innerHTML = obj.typeString;
+		type.innerHTML = obj.type.reimbursement_type;
 
 		let amount = row.insertCell(3);
-		amount.innerHTML = Number(obj.reAmount).toFixed(2);
+		amount.innerHTML = Number(obj.amount).toFixed(2);
 
 		let subDate = row.insertCell(4);
-		subDate.innerHTML = new Date(obj.reSubmitted).toDateString();
+		subDate.innerHTML = new Date(obj.submitteddate).toDateString();
 
 		let resDate = row.insertCell(5);
-		if (obj.reResolved !== null) {
-			resDate.innerHTML = new Date(obj.reResolved).toDateString();
+		if (obj.resolveddate !== null) {
+			resDate.innerHTML = new Date(obj.resolveddate).toDateString();
 		}
 		else {
 			resDate.innerHTML = 'N/A';
 		}
 
 		let resolver = row.insertCell(6);
-		if (obj.resolverString !== null) {
-			resolver.innerHTML = obj.resolverString;
+		if (obj.manager !== null) {
+			resolver.innerHTML = obj.manager.username;
 		}
 		else {
 			resolver.innerHTML = 'N/A';
@@ -73,7 +74,7 @@ let populateTable = (obj) => {
 		let desc = descRow.insertCell(0);
 		desc.setAttribute("colspan", "7");
 		desc.className = "desc";
-		desc.innerHTML = `<h3>Description:</h3><p>${obj.reDesc}</p>`;
+		desc.innerHTML = `<h3>Description:</h3><p>${obj.description}</p>`;
 
 	});
 }
@@ -81,21 +82,21 @@ let populateTable = (obj) => {
 document.getElementById("filter").addEventListener('click', async () => {
 	let status = document.getElementById("status").value;
 	console.log(status);
-	if(status<3){
-		let res = await fetch(`http://localhost:8080/project1/getAllReimbursementsById?id=${userId}`);
+	if(status>2){
+		let res = await fetch(`http://localhost:8080/ERS-Project/api/getAllById?id=${userId}`);
 		let obj = await res.json();
 		console.log(obj);
-		if(status == 0){
-			const result = obj.filter(reimb => reimb.statusString === 'PENDING');
+		if(status == 3){
+			const result = obj.filter(reimb => reimb.status.reimbursement_status === 'PENDING');
 			console.log(result);
 			populateTable(result);
-		}else if(status == 1){
-			const result = obj.filter(reimb => reimb.statusString === 'APPROVED');
+		}else if(status == 4){
+			const result = obj.filter(reimb => reimb.status.reimbursement_status === 'APPROVED');
 			console.log(result);
 			populateTable(result);
 		}
 		else{
-			const result = obj.filter(reimb => reimb.statusString === 'DENIED');
+			const result = obj.filter(reimb => reimb.status.reimbursement_status === 'DENIED');
 			console.log(result);
 			populateTable(result);
 		}
@@ -107,8 +108,9 @@ document.getElementById("filter").addEventListener('click', async () => {
 });
 
 let retreiveAllReimbursements = async () => {
-	let res = await fetch(`http://localhost:8080/project1/getAllReimbursementsById?id=${userId}`);
+	let res = await fetch(`http://localhost:8080/ERS-Project/api/getAllById?id=${userId}`);
 	let obj = await res.json();
+	console.log(obj);
 	return obj;
 }
 
@@ -116,11 +118,12 @@ let retreiveAllReimbursements = async () => {
 
 let init = async () => {
 	await verifyLoggedIn();
-	let res = await fetch(`http://localhost:8080/project1/getUser?userid=${userId}`);
+	let res = await fetch(`http://localhost:8080/ERS-Project/api/getUser?userid=${userId}`);
 	let user = await res.json();
-	let username = user.username;
-	document.getElementById("welcome").innerText = `Welcome ${username}!`;
-	document.getElementById("re-name").innerText = `${username}'s Reimbursements`;
+	console.log(user);
+	let userName = user.username;
+	document.getElementById("welcome").innerText = `Welcome ${userName}!`;
+	document.getElementById("re-name").innerText = `${userName}'s Reimbursements`;
 	let rows = await retreiveAllReimbursements();
 	populateTable(rows);
 }

@@ -3,7 +3,7 @@
 body {
 	margin: 0;
 	font-family: 'Roboto', sans-serif;
-	background: #91a796;
+	background: #F6F6E8;
 	color: #000000;
 }
 
@@ -26,7 +26,15 @@ body {
 }
 
 .reimbursement-table {
-	border-collapse: collapse;
+	border-collapse: separate;
+	border: 5px outset #00ACE9;
+	border-radius: 5px;
+}
+
+th {
+	
+	background-color: #00ACE9;
+	color: #000000;
 }
 
 td, th {
@@ -36,39 +44,43 @@ td, th {
 }
 
 tr:nth-child(even) {
-	background-color: #ffe3bb;
+	background-color: #B9D9EB;
 }
 
 tr:nth-child(even) {
-	background-color: #000000;
-	color: #D6D6D6;
+	background-color: #B9D9EB;
+	color: #000000;
 }
 
 tr:nth-child(odd) {
-	background-color: #005504;
-	color: #D6D6D6;
-}
+	background-color: #89CFF0;
+	color: #000000;
+}	
 
 #filter {
 	margin-bottom: 1rem;
 	padding: 15px 32px;
 	border: none;
-	background-color: #005504;
+	background-color: #6A9A1F;
 	color: #D6D6D6;
+	border: 3px groove #6A9A1F;	
+	border-radius: 20px;	
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
 	font-size: 16px;
 	font-family: 'Roboto', sans-serif;
-	padding: 15px 32px;
+	padding: 10px 32px;
 }
 
 #status {
 	margin-bottom: 1rem;
-	padding: 15px 32px;
+	padding: 10px 32px;
 	border: none;
-	background-color: #005504;
+	background-color: #6A9A1F;
 	color: #D6D6D6;
+	border: 3px groove #6A9A1F;
+	border-radius: 20px;
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
@@ -81,11 +93,13 @@ select:active, select:hover {
 }
 
 #appr {
-	background: #66ff00;
-	border: none;
+	background: #6A9A1F;
+	border: 3px groove #6A9A1F;
+	border-radius: 20px;
 	color: #0A0A0A;
 	width: 100px;
 	height: 30px;
+	margin: 2px;
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
@@ -100,11 +114,13 @@ select:active, select:hover {
 }
 
 #deny {
-	background: #FF0000;
-	border: none;
+	background: #6A9A1F;
+	border: 3px groove #6A9A1F;
+	border-radius: 20px;
 	color: #0A0A0A;
 	width: 100px;
 	height: 30px;
+	margin: 2px;
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;

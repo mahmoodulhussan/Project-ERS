@@ -10,6 +10,7 @@ body {
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
+	background: linear-gradient(110deg, #080b3b 40%, #00ACE9 80%);
 	background-color: #080b3b;
 	position: fixed;
 	top: 0;

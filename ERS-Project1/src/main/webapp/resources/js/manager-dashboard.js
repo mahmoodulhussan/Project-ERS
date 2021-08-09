@@ -1,9 +1,7 @@
-/* User verification and logout functions / variables */
-
 let userid;
 
 let verifyLoggedIn = async () => {
-	let res = await fetch('http://localhost:8080/project1/getSession');
+	let res = await fetch('http://localhost:8080/ERS-Project/api/getSession');
 	let obj = await res.json();
 	
 	if(obj.userid < 0){
@@ -15,13 +13,13 @@ let verifyLoggedIn = async () => {
 }
 
 document.getElementById("logout").addEventListener('click', async () => {
-	let res = await fetch('http://localhost:8080/project1/logout');
+	let res = await fetch('http://localhost:8080/ERS-Project/api/logout');
 	userId = -1;
 	verifyLoggedIn();
 });
 
 document.getElementById("review").addEventListener('click', () => {
-	location.href = "../html/manager-review.html";
+	location.href = "../html/manager-actions.html";
 });
 
 /* Reimbursement functions */
@@ -30,7 +28,7 @@ let populateTable = (obj) => {
 	
 	let table = document.getElementById("re-table");
 	
-	table.innerHTML = '<tr><th>STATUS</th><th>TYPE</th><th>SUBMITTED BY</th><th>AMOUNT</th><th>SUBMITTED DATE</th><th>RESOLVED DATE</th><th>RESOLVED BY</th></tr>';
+	table.innerHTML = '<tr><th>REIMBURSEMENT STATUS</th><th>REIMBURSEMENT TYPE</th><th>REQUESTED BY</th><th>REIMBURSEMENT AMOUNT</th><th>DATE OF SUBMISSION</th><th>DATE OF RESOLUTION</th><th>RESOLVED BY</th></tr>';
 	
 	obj.forEach((obj)=> {
 		let index = 1;
@@ -39,31 +37,31 @@ let populateTable = (obj) => {
 		row.id = obj.reId;
 		
 		let status = row.insertCell(0);
-		status.innerHTML = obj.statusString;
+		status.innerHTML = obj.status.reimbursement_status;
 		
 		let type = row.insertCell(1);
-		type.innerHTML = obj.typeString;
+		type.innerHTML = obj.type.reimbursement_type;
 		
 		let author = row.insertCell(2);
-		author.innerHTML = obj.authorString;
+		author.innerHTML = obj.userConnection.username;
 		
 		let amount = row.insertCell(3);
-		amount.innerHTML = Number (obj.reAmount).toFixed(2);
+		amount.innerHTML = Number (obj.amount).toFixed(2);
 		
 		let subDate = row.insertCell(4);
-		subDate.innerHTML = new Date(obj.reSubmitted).toDateString();
+		subDate.innerHTML = new Date(obj.submitteddate).toDateString();
 		
 		let resDate = row.insertCell(5);
-		if(obj.reResolved !== null){
-			resDate.innerHTML = new Date(obj.reResolved).toDateString();
+		if(obj.resolveddate !== null){
+			resDate.innerHTML = new Date(obj.resolveddate).toDateString();
 		}
 		else{
 			resDate.innerHTML = 'N/A';
 		}
 		
 		let resolver = row.insertCell(6);
-		if(obj.resolverString !== null){
-			resolver.innerHTML = obj.resolverString;
+		if(obj.manager !== null){
+			resolver.innerHTML = obj.manager.username;
 		}
 		else{
 			resolver.innerHTML = 'N/A';
@@ -73,7 +71,7 @@ let populateTable = (obj) => {
 		let desc = descRow.insertCell(0);
 		desc.setAttribute("colspan", "7");
 		desc.className = "desc";
-		desc.innerHTML = `<h3>Description:</h3><p>${obj.reDesc}</p>`;
+		desc.innerHTML = `<h3>Description:</h3><p>${obj.description}</p>`;
 		
 	});
 }
@@ -82,9 +80,18 @@ document.getElementById("filter").addEventListener('click', async () => {
 	let status = document.getElementById("status").value;
 	console.log(status);
 	if(status<3){
-		let res = await fetch(`http://localhost:8080/project1/filterReimbursements?status=${status}`);
-		let obj = await res.json();
-		populateTable(obj);
+		if(status == 0){
+			let obj = await retreiveAllPendingReimbursements();
+			populateTable(obj);
+		}
+		else if(status == 1){
+			let obj = await retreiveAllApprovedReimbursements();
+			populateTable(obj);
+		}
+		else{
+			let obj = await retreiveAllDeniedReimbursements();
+			populateTable(obj);
+		}
 	}
 	else{
 		let obj = await retreiveAllReimbursements();
@@ -93,16 +100,35 @@ document.getElementById("filter").addEventListener('click', async () => {
 });
 
 let retreiveAllReimbursements = async () => {
-	let res = await fetch(`http://localhost:8080/project1/getAllReimbursements`);
+	let res = await fetch(`http://localhost:8080/ERS-Project/api/getAllReimbursements`);
 	let obj = await res.json();
 	return obj;
 }
+
+let retreiveAllPendingReimbursements = async () => {
+	let res = await fetch(`http://localhost:8080/ERS-Project/api/getAllPending`);
+	let obj = await res.json();
+	return obj;
+}
+
+let retreiveAllApprovedReimbursements = async () => {
+	let res = await fetch(`http://localhost:8080/ERS-Project/api/getAllAccepted`);
+	let obj = await res.json();
+	return obj;
+}
+
+let retreiveAllDeniedReimbursements = async () => {
+	let res = await fetch(`http://localhost:8080/ERS-Project/api/getAllDenied`);
+	let obj = await res.json();
+	return obj;
+}
+
 
 /*After login initalize the table */
 
 let init = async () => {
 	await verifyLoggedIn();
-	let res = await fetch(`http://localhost:8080/project1/getUser?userid=${userId}`);
+	let res = await fetch(`http://localhost:8080/ERS-Project/api/getUser?userid=${userId}`);
 	let user = await res.json();
 	let username = user.username;
 	document.getElementById("welcome").innerText = `Welcome ${username}!`;

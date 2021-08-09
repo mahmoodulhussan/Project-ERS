@@ -1,46 +1,38 @@
-const login = async (e) => {
+/**
+ * 
+ */
+ let form = document.getElementById('login-form').addEventListener('submit', login);
+ 
+ async function login(e){
 	e.preventDefault();
-	let uname = document.getElementById('username').value;
-	let pass = document.getElementById('password').value;
-	document.getElementById('login-form').reset();
-	if (uname.length < 1 || pass.length < 1) {
-		alert("Enter the credentials");
-		return;
-	}
-
-	let uObj = {
-		username: uname,
-		password: pass,
+	let username = document.getElementById('username').value;
+	let password = document.getElementById('password').value;
+	
+	let user = {
+		username,
+		password
 	};
-
-	let req = await fetch('http://localhost:8080/ERS-Project1/login', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(uObj),
-	});
-
-	if (req.status !== 200) {
-		alert("Username or password are incorrect");
-		return;
-	}
-	else {
+	
+	console.log(user);
+	
+	try{
+		let req = await fetch('http://localhost:8080/ERS-Project/api/login',{
+			method: 'POST',
+			headers:{
+				'Content-Type' : 'application/json'
+			},
+			body: JSON.stringify(user)
+		});
 		let res = await req.json();
-	if (res.userRole == 1) { 
-		
-			location.href = '../html/employee-dashboard.html';
-		} else {
-			location.href = '../html/manager-dashboard.html';
+		console.log(res);
+		if(res.role==='EMPLOYEE'){
+			location.href = '../html/employee-home.html';
+		}else{
+			location.href = '../html/manager-home.html';
 		}
+
+	} catch(e){
+		alert("Username or Password was Incorrect");
+		return;	
 	}
-
 }
-
-//Setting the event listener for the login button
-document.getElementById('submit').addEventListener('click', login);
-
-//Setting the event listener for the register redirect button
-document.getElementById('register-redir').addEventListener('click', (event) => {
-	location.href = '../html/registration.html';
-});
