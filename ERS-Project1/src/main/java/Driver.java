@@ -37,9 +37,9 @@ public class Driver {
 		
 		LoginController.doLogin();
 		
-		String jbdcUrl = "jdbc:postgresql://project0.ckdtjvwcstp8.us-east-2.rds.amazonaws.com:5432/project1";
-		String user = "mudi";
-		String pass = "password";
+		String jbdcUrl = "jdbc:postgresql:/-------------------Link-----------------";
+		String user = "";
+		String pass = "";
 		
 		try {
 			System.out.println("Connecting to database: " +jbdcUrl);
