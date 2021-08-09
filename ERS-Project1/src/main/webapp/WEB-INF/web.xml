@@ -13,7 +13,7 @@
   <servlet-mapping>
   	<servlet-name>MasterServlet</servlet-name>
   	<url-pattern>/login</url-pattern>
-  <!--  	<url-pattern>/register</url-pattern> -->
+    <url-pattern>/register</url-pattern> 
   	<url-pattern>/getSession</url-pattern>
   	<url-pattern>/getUser</url-pattern>
   	<url-pattern>/doLogout</url-pattern>
@@ -21,8 +21,9 @@
   	<url-pattern>/getAllReimbursements</url-pattern>
   	<url-pattern>/filterByStatus</url-pattern>
   	<url-pattern>/addNewReimbursement</url-pattern>
-  <!--	<url-pattern>/approveReimbursement</url-pattern>
-  	<url-pattern>/denyReimbursement</url-pattern> -->
+    <url-pattern>/approveReimbursement</url-pattern>
+  	<url-pattern>/denyReimbursement</url-pattern>
+    <url-pattern>/api/*</url-pattern>
   </servlet-mapping>
   
 </web-app>
