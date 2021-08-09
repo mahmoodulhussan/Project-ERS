@@ -115,6 +115,81 @@ public class ReimbursementController {
 			res.getWriter().write((new ObjectMapper().writeValueAsString(sList)));
 		}
 		
+	public static void getAllPendingReimbursements(HttpServletRequest req, HttpServletResponse res) throws JsonProcessingException, IOException{
+		List<Reimbursement> re = rServ.getAllPendingReimbursements();
+		res.addHeader("Access-Control-Allow-Origin", "*");
+		res.setHeader("Access-Control-Allow-Methods", "GET");
+		res.getWriter().write(new ObjectMapper().writeValueAsString(re));
+	}
+	
+	public static void getAllAcceptedReimbursements(HttpServletRequest req, HttpServletResponse res) throws JsonProcessingException, IOException{
+		List<Reimbursement> re = rServ.getAllAcceptedReimbursements();
+		res.addHeader("Access-Control-Allow-Origin", "*");
+		res.setHeader("Access-Control-Allow-Methods", "GET");
+		res.getWriter().write(new ObjectMapper().writeValueAsString(re));
+	}
+	
+	public static void getAllDeniedReimbursements(HttpServletRequest req, HttpServletResponse res) throws JsonProcessingException, IOException{
+		List<Reimbursement> re = rServ.getAllDeniedReimbursements();
+		res.addHeader("Access-Control-Allow-Origin", "*");
+		res.setHeader("Access-Control-Allow-Methods", "GET");
+		res.getWriter().write(new ObjectMapper().writeValueAsString(re));
+	}
+	
+	public static void getAllReimbursements(HttpServletRequest req, HttpServletResponse res) throws JsonProcessingException, IOException{
+		List<Reimbursement> re = rServ.getAllReimbursements();
+		res.addHeader("Access-Control-Allow-Origin", "*");
+		res.setHeader("Access-Control-Allow-Methods", "GET");
+		res.getWriter().write(new ObjectMapper().writeValueAsString(re));
+	}
+	
+	public static void acceptReimbursement(HttpServletRequest req, HttpServletResponse res) throws JsonProcessingException, IOException {
+		StringBuilder buffer = new StringBuilder();
+		BufferedReader reader = req.getReader();
 		
+		String line;
+		while((line = reader.readLine()) != null) {
+			buffer.append(line);
+			buffer.append(System.lineSeparator());
+		}
+		String data = buffer.toString();
+		System.out.println(data);
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode parsedObj = mapper.readTree(data);
+		
+		String today = parsedObj.get("date").asText();
+		int rint = Integer.parseInt(parsedObj.get("reid").asText());
+		Reimbursement r = rDao.getReimbursementById(rint);
+		int managerId = Integer.parseInt(parsedObj.get("userid").asText());
+		User manager = uDao.getUserById(managerId);
+		ReimbursementStatus rs = sDao.getStatusById(4);
+				
+		rServ.updateReimbursement(r.getId(), r.getType(), r.getAmount(), r.getSubmitteddate(), today, r.getDescription(), rs, r.getUserConnection(), manager);
+	}
+	
+	public static void denyReimbursement(HttpServletRequest req, HttpServletResponse res) throws JsonProcessingException, IOException {
+		StringBuilder buffer = new StringBuilder();
+		BufferedReader reader = req.getReader();
+		
+		String line;
+		while((line = reader.readLine()) != null) {
+			buffer.append(line);
+			buffer.append(System.lineSeparator());
+		}
+		String data = buffer.toString();
+		System.out.println(data);
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode parsedObj = mapper.readTree(data);
+		
+		String today = parsedObj.get("date").asText();
+		int rint = Integer.parseInt(parsedObj.get("reid").asText());
+		Reimbursement r = rDao.getReimbursementById(rint);
+		int managerId = Integer.parseInt(parsedObj.get("userid").asText());
+		User manager = uDao.getUserById(managerId);
+		ReimbursementStatus status = sDao.getStatusById(5);
+				
+		rServ.updateReimbursement(r.getId(), r.getType(), r.getAmount(), r.getSubmitteddate(), today, r.getDescription(), status, r.getUserConnection(), manager);
+	}
+}
 		
 }
