@@ -235,31 +235,6 @@ public class Reimbursement {
 	public void setErsType(ReimbursementType ersType) {
 		this.ersType = ersType;
 	}
-	
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(author, ersStatus, ersType, reimbAmount, reimbDescription, reimbId, reimbResolved,
-				reimbSubmitted, resolver, user);
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Reimbursement other = (Reimbursement) obj;
-		return Objects.equals(author, other.author) && Objects.equals(ersStatus, other.ersStatus)
-				&& Objects.equals(ersType, other.ersType) && reimbAmount == other.reimbAmount
-				&& Objects.equals(reimbDescription, other.reimbDescription) && reimbId == other.reimbId
-				&& Objects.equals(reimbResolved, other.reimbResolved)
-				&& Objects.equals(reimbSubmitted, other.reimbSubmitted) && Objects.equals(resolver, other.resolver)
-				&& Objects.equals(user, other.user);
-	}
 
 
 	@Override
