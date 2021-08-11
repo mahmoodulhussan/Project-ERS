@@ -81,7 +81,7 @@ public class ReimbursementController {
 			String reimbSubmitted = parsedObj.get("reimbSubmitted").asText();
 			String reimbDescription = parsedObj.get("reimbDescription").asText();
 			int author = Integer.parseInt(parsedObj.get("author").asText());
-//			String ersStatus = parsedObj.get("ersStatus").asText();
+
 			String ersType = String.valueOf(parsedObj.get("ersType").asText());
 			User u = uServ.getUserById(userId);			
 			User a = uServ.getAuthor(author);
