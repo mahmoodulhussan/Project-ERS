@@ -131,15 +131,5 @@ public class ReimbursementDao {
 		updateReimb.setErsStatus(resStatus);
 		tx.commit();
 	}
-	
-//	public void insertSubmitDate(int rInt, String submitted) {
-//		Session ses = HibernateUtil.getSession();
-//		Transaction tx = ses.beginTransaction();
-//		Reimbursement submitDate = (Reimbursement)ses.get(Reimbursement.class, rInt);
-//		submitDate.setReimbSubmitted(submitted);
-//		tx.commit();
-//	}
-	
-	
-	
+		
 }
