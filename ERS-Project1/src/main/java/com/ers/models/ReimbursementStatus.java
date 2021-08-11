@@ -70,24 +70,7 @@ public class ReimbursementStatus {
 		this.status = status;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(ersList, status, statusId);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ReimbursementStatus other = (ReimbursementStatus) obj;
-		return Objects.equals(ersList, other.ersList) && Objects.equals(status, other.status)
-				&& statusId == other.statusId;
-	}
-
+	
 	@Override
 	public String toString() {
 		return "ReimbursementStatus [statusId=" + statusId + ", status=" + status + ", ersList=" + ersList + "]";
