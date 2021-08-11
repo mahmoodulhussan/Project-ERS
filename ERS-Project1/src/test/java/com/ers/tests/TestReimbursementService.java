@@ -45,27 +45,15 @@ public class TestReimbursementService {
 		public void initMocks() {
 			MockitoAnnotations.initMocks(this);
 		}
-//		@BeforeMethod
-//		public void setUp() {
-//		    rDao = new ReimbursementDao();
-//		}
 
-//		 public static void setupBeforeClass() {
-//		      PowerMockito.mockStatic(LoggerFactory.class);
-//		      loggerMock = mock(Logger.class);
-//		      when(LoggerFactory.getLogger(any(Class.class))).thenReturn(loggerMock);
-	//	
-//		 e = new UserRoles();
-//		@BeforeClass
-//		public void setUp() {
 		UserRoles e = new UserRoles(0,UserRole.EMPLOYEE);
-//		}
+
 
 		ReimbursementStatus s = new ReimbursementStatus(3, Status.PENDING);
 		ReimbursementStatus s2 = new ReimbursementStatus(3, Status.APPROVED);
 		ReimbursementStatus s3 = new ReimbursementStatus(3, Status.DENIED);
 		ReimbursementType t = new ReimbursementType(6, RType.LODGING);
-//		UserRoles e = new UserRoles(0,UserRole.EMPLOYEE);
+
 		User user = new User(1,"test", "user", "testuser", "test@email.com", "testpass",e );
 		User not = new User(0,"Test","User","testuser","test@email.com","testpass",e);
 		private Reimbursement r1 = new Reimbursement(t , 100.0d, "Date in string format", "test string",
@@ -102,16 +90,7 @@ public class TestReimbursementService {
 			assertEquals(r1.getId(), got.getId());
 		}
 		
-//		@Test
-//		public void testAddReimbursement() {
-//			
-//			doReturn(true).when(riembDao).createReimbursement(any());
-//			
-//			public void saved = rServ.addReimbursement(t, 100.0d, "Date", "Description", s, user);
-//			
-//			assertTrue(saved);
-//			
-//		}
+
 		
 		@Test
 		public void testGetReimbursementsByUser() {
@@ -205,18 +184,5 @@ public class TestReimbursementService {
 			assertEquals(1, ret.size());
 			
 		}
-		
-	
-//		@Test
-//		public void testDeleteReimbursement() {
-//			
-//			doNothing().when(rServ.deleteReimbursement(anyString())).thenReturn(r1);
-//			
-//			doReturn(r1).when(riembDao)
-//			
-//			Reimbursement got = rServ.deleteReimbursement(1);
-//
-//			assertEquals(r1.setId(1), got.setId(0));
-//		}
 		
 }
