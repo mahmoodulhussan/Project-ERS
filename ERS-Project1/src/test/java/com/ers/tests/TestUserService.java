@@ -38,12 +38,9 @@ public class TestUserService {
 		MockitoAnnotations.initMocks(this);
 	}
 	
-//	 e = new UserRoles();
-//	@BeforeClass
-//	public void setUp() {
+
 	UserRoles e = new UserRoles(0,UserRole.EMPLOYEE);
-//	}
-	
+
 	@Test
 	public void testValidLogin() {
 
@@ -83,24 +80,6 @@ public class TestUserService {
 		
 		User loggedIn = uServ.signIn("testuser", "testpass");
 	}
-	
-//	@Test
-//	public void testSignup() {
-//		User u1 = new User(1,"test", "user", "testuser", "test@email.com", "testpass",e);
-//		User not = new User(1, "test", "user","testuser", "test@mail.com", "wrongpass",e);
-//		
-//		when(uDao.createUser(any())).thenReturn(true);
-//		when(uDao.getUserByUsername("test")).thenReturn(not);
-//		
-//		boolean registered = uServ.signUp(null, null, "test", null, null, e);
-//		
-//		assertTrue(registered);
-//	}
-	
-//	@AfterClass
-//	public void tearDown() {
-//	    e = null;
-//	}
 	
 
 	@Test
