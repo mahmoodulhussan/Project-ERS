@@ -31,7 +31,7 @@ public class ReimbursementTypeDao {
 		ses.save(retype);
 		tx.commit();
 	}
-	
+	 
 	public ReimbursementStatus selectReimbursementStatusByName(String statusName) {
 		Session ses = HibernateUtil.getSession();
 		Query<ReimbursementStatus> q = ses.createQuery("FROM ReimbursementStatus WHERE status = '"+statusName+"'", ReimbursementStatus.class); 
