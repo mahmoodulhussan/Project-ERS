@@ -29,7 +29,7 @@ public class ReimbursementStatusDao {
 		if(rStatusList.size() == 0) return null;
 		return rStatusList.get(0);
 	}
-	
+	 
 	public void insertReimbursementStatus(ReimbursementStatus status) {
 		Session ses = HibernateUtil.getSession();
 		Transaction tx = ses.beginTransaction();
