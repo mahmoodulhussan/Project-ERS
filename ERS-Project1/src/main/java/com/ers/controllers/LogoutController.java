@@ -14,4 +14,4 @@ public class LogoutController {
 		res.getWriter().println("User logged out");
 	}
 
-}
+} 
