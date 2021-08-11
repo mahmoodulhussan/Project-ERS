@@ -67,24 +67,6 @@ public class ReimbursementType {
 		}
 
 		@Override
-		public int hashCode() {
-			return Objects.hash(ersList, reimbType, typeId);
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			ReimbursementType other = (ReimbursementType) obj;
-			return Objects.equals(ersList, other.ersList) && Objects.equals(reimbType, other.reimbType)
-					&& typeId == other.typeId;
-		}
-
-		@Override
 		public String toString() {
 			return "ReimbursementType [typeId=" + typeId + ", reimbType=" + reimbType +"]";
 		}
