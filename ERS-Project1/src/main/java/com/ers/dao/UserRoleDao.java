@@ -44,3 +44,4 @@ public class UserRoleDao {
 		return uRoleList.get(0).getUserRole();
 	}
 }
+ 
