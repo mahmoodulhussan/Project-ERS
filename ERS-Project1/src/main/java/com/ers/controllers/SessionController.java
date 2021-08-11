@@ -32,3 +32,4 @@ public class SessionController {
 		res.getWriter().write((new ObjectMapper().writeValueAsString(sesInfo)));
 	}
 }
+ 
