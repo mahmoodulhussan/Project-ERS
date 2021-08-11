@@ -13,7 +13,7 @@ import com.ers.utils.HibernateUtil;
 public class UserDao {
 	public UserDao() {
 		
-	}
+	} 
 	public User selectByUserName(String username) {
 		Session ses = HibernateUtil.getSession();
 		Query<User> q = ses.createQuery("FROM User WHERE username = '"+username+"'", User.class);
