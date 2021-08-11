@@ -24,9 +24,9 @@ public static void process(HttpServletRequest req, HttpServletResponse res) thro
 		case "/ERS-Project1/login":
 			LoginController.doLogin(req, res);
 			break;
-//		case "/project1/register":
-//			RegisterController.registerUser(req, res);
-//			break;
+		case "/project1/register":
+			RegisterController.registerUser(req, res);
+			break;
 		case "/ERS-Project1/getSession":
 			SessionController.getSession(req,res);
 			break;
@@ -48,12 +48,12 @@ public static void process(HttpServletRequest req, HttpServletResponse res) thro
 		case "/ERS-Project1/addNewReimbursement":
 			ReimbursementController.addNewReimbursement(req, res);
 			break;
-//		case "/project1/approveReimbursement":
-//			ReimbursementController.acceptReimbursement(req, res);
-//			break;
-//		case "/project1/denyReimbursement":
-//			ReimbursementController.denyReimbursement(req, res);
-//			break;
+		case "/project1/approveReimbursement":
+			ReimbursementController.acceptReimbursement(req, res);
+			break;
+		case "/project1/denyReimbursement":
+			ReimbursementController.denyReimbursement(req, res);
+			break;
 		}
 	}
 }
