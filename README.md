@@ -5,6 +5,6 @@ The Expense Reimbursement System (ERS) will manage the process of reimbursing em
 Java, JavaScript, HTML, CSS, Maven, Git, PostgreSQL, Hibernate, Servlets, Tomcat, JUnit4, Mockito
 
 ##Screen Shots of the web application:
-./ERS2.JPG
+<img ERS2.JPG>
 ./ERS2.JPG
 ./ERS2.JPG
