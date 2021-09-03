@@ -1,73 +1,57 @@
 package com.ers.models;
 
-import java.util.List;
-import java.util.Objects;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ers.enums.RType;
 
-//@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 @Entity
-@Table(name="reimb_type")
-@JsonIgnoreProperties(value= {"hibernateLazyInitializer", "handler"})
+@Table
 public class ReimbursementType {
-
-		@Id
-		@GeneratedValue(strategy=GenerationType.AUTO)
-		@Column(name="typeid")
-		private int typeId;
+	@Id
+	@Column
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+	
+	@Enumerated(EnumType.STRING)
+	@Column
+	private RType reimbursement_type;
+	
+	public ReimbursementType() {
 		
-		@Column(name="reimb_type")
-		private String reimbType;
-		
-		@OneToMany(mappedBy="ersType", fetch=FetchType.LAZY)
-		@JsonIgnore
-		private List<Reimbursement> ersList;
-		
-		public ReimbursementType() {
-			
-		}
+	}
+	
+	public ReimbursementType(int id, RType reimbursement_type) {
+		super();
+		this.id=id;
+		this.reimbursement_type=reimbursement_type;
+	}
+	
+	public int getId() {
+		return id;
+	}
 
-		public ReimbursementType(int typeId, String reimbType) {
-			super();
-			this.typeId = typeId;
-			this.reimbType = reimbType;
-		}
+	public void setId(int id) {
+		this.id = id;
+	}
 
-		public ReimbursementType(String reimbType) {
-			super();
-			this.reimbType = reimbType;
-		}
+	public RType getReimbursement_type() {
+		return reimbursement_type;
+	}
 
-		public int getTypeId() {
-			return typeId;
-		}
+	public void setReimbursement_type(RType reimbursement_type) {
+		this.reimbursement_type = reimbursement_type;
+	}
 
-		public void setTypeId(int typeId) {
-			this.typeId = typeId;
-		}
-
-		public String getReimbType() {
-			return reimbType;
-		}
-
-		public void setReimbType(String reimbType) {
-			this.reimbType = reimbType;
-		}
-
-		@Override
-		public String toString() {
-			return "ReimbursementType [typeId=" + typeId + ", reimbType=" + reimbType +"]";
-		}
+	@Override
+	public String toString() {
+		return "" + reimbursement_type;
+	}
+	
 }

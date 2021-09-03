@@ -1,9 +1,5 @@
 package com.ers.models;
 
-
-import java.sql.Timestamp;
-import java.util.Objects;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,233 +11,170 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.ers.enums.RType;
+import com.ers.enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
-//@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 @Entity
 @JsonIgnoreProperties(value= {"hibernateLazyInitializer", "handler"})
-@Table(name="ers_reimb")
-
+@Table
 public class Reimbursement {
 	
 	@Id
 	@Column
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int reimbId;
+	private int id;
 	
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	@JoinColumn(name="user_id")
-	@JsonIgnoreProperties("ers_reimb")
-	private User user;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn
+	private ReimbursementType type;
 	
-	@Column(name="reimb_amount", nullable=false)
-	private int reimbAmount;
+	@Column(nullable=false)
+	private double amount;
 	
-	@Column(name="reimb_submit")
-	private String reimbSubmitted;
+	@Column(nullable=false)
+	private String submitteddate;
 	
-	@Column(name="reimb_resolved")
-	private String reimbResolved;
+	@Column
+	private String resolveddate; 
 	
-	@Column(name="reimb_description",  nullable=false)
-	private String reimbDescription;
+	@Column(nullable=false)
+	private String description;
 	
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	@JoinColumn(name="user_auth_fk")
-	private User author;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn
+	private ReimbursementStatus status;
 	
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	@JoinColumn(name="user_reslvr_fk")
-	private User resolver;
+	@ManyToOne(cascade=CascadeType.ALL,fetch = FetchType.LAZY)
+	@JoinColumn
+	private User employee;
 	
-    
-    @ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	@JoinColumn(name="reimb_status_fk")
-	private ReimbursementStatus ersStatus;
-   
-    
-    
-    @ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	@JoinColumn(name="reimb_type_fk")
-	private ReimbursementType ersType; 
-		
+	@ManyToOne(cascade=CascadeType.ALL,fetch = FetchType.LAZY)
+	@JoinColumn
+	private User manager;
+	
 	public Reimbursement() {
-
-	}
-
-
-	public Reimbursement(User user, int reimbAmount, String reimbSubmitted, String reimbDescription, User author,
-			ReimbursementType ersType) {
 		super();
-		this.reimbAmount = reimbAmount;
-		this.reimbSubmitted = reimbSubmitted;
-		this.reimbDescription = reimbDescription;
-		this.author = author;
-		this.ersType = ersType;
 	}
-
-
-	public Reimbursement(User user, int reimbAmount, String reimbSubmitted, String reimbDescription, User author) {
+	
+	public Reimbursement(int id, ReimbursementType type, double amount, String submitteddate, String resolveddate, String description, /*String receipt,*/ ReimbursementStatus status) {
 		super();
-		this.user = user;
-		this.reimbAmount = reimbAmount;
-		this.reimbSubmitted = reimbSubmitted;
-		this.reimbDescription = reimbDescription;
-		this.author = author;
+		this.id = id;
+		this.type = type;
+		this.amount = amount;
+		this.submitteddate=submitteddate;
+		this.resolveddate = resolveddate;
+		this.description = description;
+		this.status = status;
 	}
-
-
-	public Reimbursement(int reimbAmount, String reimbSubmitted, String reimbDescription, User author, User resolver) {
+	
+	public Reimbursement(ReimbursementType type, double amount, String submitteddate, /*String resolveddate,*/ String description, /*String receipt,*/ ReimbursementStatus status, User employee) {
 		super();
-		this.reimbAmount = reimbAmount;
-		this.reimbSubmitted = reimbSubmitted;
-		this.reimbDescription = reimbDescription;
-		this.author = author;
-		this.resolver = resolver;
+		this.type = type;
+		this.amount = amount;
+		this.submitteddate= submitteddate;
+		this.description = description;
+		this.status = status;
+		this.employee=employee;
 	}
-
-
-	public Reimbursement(int reimbAmount, String reimbSubmitted, String reimbDescription, User author, User resolver,
-			ReimbursementStatus ersStatus, ReimbursementType ersType) {
+	
+	public Reimbursement(int id, ReimbursementType type, double amount, String submitteddate, String resolveddate, String description, ReimbursementStatus status, User employee, User manager) {
 		super();
-		this.reimbAmount = reimbAmount;
-		this.reimbSubmitted = reimbSubmitted;
-		this.reimbDescription = reimbDescription;
-		this.author = author;
-		this.resolver = resolver;
-		this.ersStatus = ersStatus;
-		this.ersType = ersType;
+		this.id = id;
+		this.type = type;
+		this.amount = amount;
+		this.submitteddate=submitteddate;
+		this.resolveddate = resolveddate;
+		this.description = description;
+		this.status = status;
+		this.employee = employee;
+		this.manager=manager;
+	}
+	
+
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public ReimbursementType getType() {
+		return type;
+	}
+	
+	public void setType(ReimbursementType type) {
+		this.type = type;
+	}
+	
+	public double getAmount() {
+		return amount;
+	}
+	
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+	
+	public ReimbursementStatus getStatus() {
+		return status;
+	}
+	
+	public void setStatus(ReimbursementStatus resolved) {
+		this.status = resolved;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public Reimbursement(int reimbAmount, String reimbSubmitted, String reimbResolved, String reimbDescription,
-			User author, User resolver, ReimbursementStatus ersStatus, ReimbursementType ersType) {
-		super();
-		this.reimbAmount = reimbAmount;
-		this.reimbSubmitted = reimbSubmitted;
-		this.reimbResolved = reimbResolved;
-		this.reimbDescription = reimbDescription;
-		this.author = author;
-		this.resolver = resolver;
-		this.ersStatus = ersStatus;
-		this.ersType = ersType;
+	public User getEmployee() {
+		return employee;
 	}
 
+	public void setEmployee(User employee) {
+		this.employee = employee;
+	}
+	
+	
 
-	public Reimbursement(int reimbId, int reimbAmount, String reimbSubmitted, String reimbResolved,
-			String reimbDescription, User author, User resolver, ReimbursementStatus ersStatus,
-			ReimbursementType ersType) {
-		super();
-		this.reimbId = reimbId;
-		this.reimbAmount = reimbAmount;
-		this.reimbSubmitted = reimbSubmitted;
-		this.reimbResolved = reimbResolved;
-		this.reimbDescription = reimbDescription;
-		this.author = author;
-		this.resolver = resolver;
-		this.ersStatus = ersStatus;
-		this.ersType = ersType;
+	public String getSubmitteddate() {
+		return submitteddate;
 	}
 
-
-	public Reimbursement(int reimbId, int reimbAmount, String reimbSubmitted, String reimbResolved,
-			String reimbDescription) {
-		super();
-		this.reimbId = reimbId;
-		this.reimbAmount = reimbAmount;
-		this.reimbSubmitted = reimbSubmitted;
-		this.reimbResolved = reimbResolved;
-		this.reimbDescription = reimbDescription;
+	public void setSubmitteddate(String submitteddate) {
+		this.submitteddate = submitteddate;
 	}
 
-
-	public int getReimbId() {
-		return reimbId;
+	public String getResolveddate() {
+		return resolveddate;
 	}
 
-	public void setReimbId(int reimbId) {
-		this.reimbId = reimbId;
+	public void setResolveddate(String resolveddate) {
+		this.resolveddate = resolveddate;
 	}
 
-	public int getReimbAmount() {
-		return reimbAmount;
+	public User getManager() {
+		return manager;
 	}
 
-	public void setReimbAmount(int reimbAmount) {
-		this.reimbAmount = reimbAmount;
+	public void setManager(User manager) {
+		this.manager = manager;
 	}
-
-	public String getReimbSubmitted() {
-		return reimbSubmitted;
-	}
-
-	public void setReimbSubmitted(String reimbSubmitted) {
-		this.reimbSubmitted = reimbSubmitted;
-	}
-
-	public String getReimbResolved() {
-		return reimbResolved;
-	}
-
-	public void setReimbResolved(String reimbResolved) {
-		this.reimbResolved = reimbResolved;
-	}
-
-	public String getReimbDescription() {
-		return reimbDescription;
-	}
-
-	public void setReimbDescription(String reimbDescription) {
-		this.reimbDescription = reimbDescription;
-	}
-
-	public User getAuthor() {
-		return author;
-	}
-
-
-	public void setAuthor(User author) {
-		this.author = author;
-	}
-
-
-	public User getResolver() {
-		return resolver;
-	}
-
-
-	public void setResolver(User resolver) {
-		this.resolver = resolver;
-	}
-
-
-	public ReimbursementStatus getErsStatus() {
-		return ersStatus;
-	}
-
-
-	public void setErsStatus(ReimbursementStatus ersStatus) {
-		this.ersStatus = ersStatus;
-	}
-
-
-	public ReimbursementType getErsType() {
-		return ersType;
-	}
-
-
-	public void setErsType(ReimbursementType ersType) {
-		this.ersType = ersType;
-	}
-
 
 	@Override
 	public String toString() {
-		return "Reimbursement [reimbId=" + reimbId + ", user=" + user + ", reimbAmount=" + reimbAmount
-				+ ", reimbSubmitted=" + reimbSubmitted + ", reimbResolved=" + reimbResolved + ", reimbDescription="
-				+ reimbDescription + ", author=" + author + ", resolver=" + resolver + ", ersStatus=" + ersStatus
-				+ ", ersType=" + ersType + "]";
+		return  "\n" + "Id: " + id + "\n" + "Type: " + type + "\n" + "Amount: " + amount + "\n" + "Submitted Date: " + submitteddate
+				+ "\n" + "Resolved Date: " + resolveddate + "\n" + "Description: " + description + "\n" + "Status: " + status
+				+ "\n"+ "\n" + "Employee: " + employee + "\n" + "Manager: " + manager + "\n";
 	}
+	
+	
+	
+	
+
 }

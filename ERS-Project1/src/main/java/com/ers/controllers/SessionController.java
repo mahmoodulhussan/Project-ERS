@@ -19,7 +19,7 @@ public class SessionController {
 		
 		ObjectNode sesInfo = mapper.createObjectNode();
 		
-		if(session.getAttribute("userId") == null) {
+		if(session.getAttribute("id") == null) {
 			res.setStatus(404);
 			res.getWriter().println("User is not logged in");
 			return;
@@ -27,9 +27,8 @@ public class SessionController {
 		System.out.println("inside getSession");
 		System.out.println(session.getAttribute("id"));
 		
-		sesInfo.put("userId", session.getAttribute("userId").toString());
+		sesInfo.put("id", session.getAttribute("id").toString());
 		
 		res.getWriter().write((new ObjectMapper().writeValueAsString(sesInfo)));
 	}
 }
- 

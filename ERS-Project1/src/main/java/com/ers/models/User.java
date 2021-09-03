@@ -2,7 +2,6 @@ package com.ers.models;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,102 +15,82 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.ers.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-//@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 @Entity
-@Table(name="ers_users")
+@Table
 @JsonIgnoreProperties(value= {"hibernateLazyInitializer", "handler"})
 public class User {
 	
 	@Id
-	@Column
+	@Column(nullable=false)
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int userId;
+	private int id;
 	
-	@Column(name="ers_username", nullable=false, unique=true)
+	@Column(nullable=false)
+	private String firstname;
+	
+	@Column(nullable=false)
+	private String lastname;
+	
+	@Column(nullable=false, unique=true)
 	private String username;
 	
-	@Column(name="ers_password", nullable=false)
-	private String password;
-	
-	@Column(name="user_first_name", nullable=false)
-	private String firstName;
-	
-	@Column(name="user_last_name", nullable=false)
-	private String lastName;
-	
-	@Column(name="user_email", nullable=false, unique=true)
+	@Column(nullable=false, unique=true)
 	private String email;
 	
-    @ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	@JoinColumn(name="user_role_fk")
-    @JsonManagedReference
-	public UserRole userRole;
-    
-    @OneToMany(mappedBy="user", cascade=CascadeType.ALL)
-//    @JsonBackReference
-    @JsonIgnore
-	private List<Reimbursement> reimb;
-    
-    @OneToMany(mappedBy="author", fetch=FetchType.LAZY)
-    @JsonIgnore
-	private List<Reimbursement> authorList = new ArrayList<>();
-    @JsonIgnore
-	@OneToMany(mappedBy="resolver", fetch=FetchType.LAZY)
-	private List<Reimbursement> resolverList = new ArrayList<>();
+	@Column(nullable=false)
+	private String password;
+	
+	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@JoinColumn
+	private UserRoles role;
+	
+	@OneToMany(mappedBy="employee",fetch=FetchType.LAZY)
+	@JsonIgnore
+	private List<Reimbursement> employees = new ArrayList<Reimbursement>();
+	
+	@OneToMany(mappedBy="manager",fetch=FetchType.LAZY)
+	@JsonIgnore
+	private List<Reimbursement> manager = new ArrayList<Reimbursement>();
+	
+	
 	
 	public User() {
-		
+		super();
 	}
 
-	public User(int userId, String username, String password, String firstName, String lastName, String email,
-			UserRole userRole) {
+	public User(int id, String firstname, String lastname, String username, String email, String password,
+			UserRoles role) {
 		super();
-		this.userId = userId;
+		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.firstname = firstname;
+		this.lastname = lastname;
 		this.email = email;
-		this.userRole = userRole;
+		this.role = role;
 	}
 
-	public User(int userId, String username, String password, UserRole userRole) {
-		super();
-		this.userId = userId;
-		this.username = username;
-		this.password = password;
-		this.userRole = userRole;
-	}
-
-	public User(String username, String password) {
+	public User(String firstname, String lastname, String username, String email, String password, UserRoles role) {
 		super();
 		this.username = username;
 		this.password = password;
-	}
-
-	public User(String username, String password, String firstName, String lastName, String email, UserRole userRole) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.firstname = firstname;
+		this.lastname = lastname;
 		this.email = email;
-		this.userRole = userRole;
+		this.role = role;
+	
 	}
 
-	public int getUserId() {
-		return userId;
+	public int getId() {
+		return id;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getUsername() {
@@ -130,20 +109,20 @@ public class User {
 		this.password = password;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getFirstname() {
+		return firstname;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getLastname() {
+		return lastname;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
 	public String getEmail() {
@@ -154,42 +133,18 @@ public class User {
 		this.email = email;
 	}
 
-	public UserRole getUserRole() {
-		return userRole;
+	public UserRoles getRole() {
+		return role;
 	}
 
-	public void setUserRole(UserRole userRole) {
-		this.userRole = userRole;
-	}
-
-	public List<Reimbursement> getReimb() {
-		return reimb;
-	}
-
-	public void setReimb(List<Reimbursement> reimb) {
-		this.reimb = reimb;
-	}
-
-	public List<Reimbursement> getAuthorList() {
-		return authorList;
-	}
-
-	public void setAuthorList(List<Reimbursement> authorList) {
-		this.authorList = authorList;
-	}
-
-	public List<Reimbursement> getResolverList() {
-		return resolverList;
-	}
-
-	public void setResolverList(List<Reimbursement> resolverList) {
-		this.resolverList = resolverList;
+	public void setRole(UserRoles role) {
+		this.role = role;
 	}
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
-				+ firstName + ", lastName=" + lastName + ", email=" + email + ", userRole=" + userRole + "]";
+		return  "\n"+"Id: " + id + "\n" + "First Name: " + firstname + "\n" + "Last Name: " + lastname + "\n" + "Username: " + username
+				+ "\n" + "Email: " + email + "\n" + "Password: " + password + "\n"+ "Role: " + role + "\n";
 	}
 
 }

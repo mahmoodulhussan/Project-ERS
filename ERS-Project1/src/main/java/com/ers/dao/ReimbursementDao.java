@@ -2,13 +2,10 @@ package com.ers.dao;
 
 import java.util.List;
 
-import com.ers.enums.RType;
-import com.ers.enums.Status;
 import com.ers.models.Reimbursement;
 import com.ers.models.ReimbursementStatus;
 import com.ers.models.ReimbursementType;
 import com.ers.models.User;
-import com.ers.models.UserRoles;
 
 public interface ReimbursementDao {
 	
@@ -25,9 +22,6 @@ public interface ReimbursementDao {
 	void deleteReimbursementById(int id);
 	
 	void updateReimbursementByArgs(int id, ReimbursementType type, double amount, String submitteddate, String resolveddate, String description, ReimbursementStatus status, User employeeId, User Manager);
-	
-//	void updateReimbursementByArgs(ReimbursementStatus r, UserRoles id, Reimbursement date);
-
 	
 	List<Reimbursement> getAllPendingReimbursments();
 	

@@ -1,135 +1,133 @@
 package com.ers.dao;
 
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
+import org.hibernate.Session;
+
 
 import com.ers.models.Reimbursement;
 import com.ers.models.ReimbursementStatus;
 import com.ers.models.ReimbursementType;
 import com.ers.models.User;
-import com.ers.utils.HibernateUtil;
+import com.ers.util.HibernateUtil;
 
-public class ReimbursementDao {
+public class ReimbursementDaoDB implements ReimbursementDao{
 
-	public ReimbursementDao() {
-		
+	@Override
+	public List<Reimbursement> getAllReimbursments() {
+		Session session = HibernateUtil.getSession();
+		List<Reimbursement> rList = session.createQuery("from Reimbursement", Reimbursement.class).list();
+		return rList;
 	}
-	
-	public void insertReimbursement(Reimbursement reimb) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-		ses.save(reimb);
-		tx.commit();
-	}
-	
-	public void update(Reimbursement reimb) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-		ses.update(reimb);
-		tx.commit();
-	}
-	
-	public Reimbursement selectById(int id) {
-		Session ses = HibernateUtil.getSession();
-		Reimbursement reimb = ses.get(Reimbursement.class, id);
-		return reimb;
-	}
-	
-	public Reimbursement getBySubmit(String reimbSubmitted) {
-		Session ses = HibernateUtil.getSession();
-		Reimbursement reimb = ses.get(Reimbursement.class, reimbSubmitted);
-		return reimb;
-	}
-	
-	public List<Reimbursement> selectAll(){
-		Session ses = HibernateUtil.getSession();
-		return ses.createQuery("FROM Reimbursement", Reimbursement.class).list();
-	
-	}
-	
-	public List<Reimbursement> selectByAuthorUserName(String userName){
-		Session ses = HibernateUtil.getSession();
-		Query<Reimbursement> q = ses.createQuery("FROM Reimbursement WHERE author.username = '"+userName+"'", Reimbursement.class);
-		return q.list();
-	}
-	
-	public List<Reimbursement> selectByAuthorUserName(String userName, String filter){
-		Session ses = HibernateUtil.getSession();
-		Query<Reimbursement> q = ses.createQuery("FROM Reimbursement WHERE author.username = '"+userName+"' AND ersStatus.status = '"+filter+"'", Reimbursement.class);
-		return q.list();
-	}
-	
-	public ReimbursementType getReimbursementType(String ersType) {
-		Session ses = HibernateUtil.getSession();
-		ReimbursementType r = ses.createQuery("from ReimbursementType where ersType=" + ersType, ReimbursementType.class).uniqueResult();
+
+	@Override
+	public Reimbursement getReimbursementById(int id) {
+		Session session = HibernateUtil.getSession();
+		Reimbursement r = session.get(Reimbursement.class, id);
 		return r;
 	}
-	
-	
-	public List<Reimbursement> selectByReimbursementType(String type) {
-		Session ses = HibernateUtil.getSession();
-		Query<Reimbursement> q = ses.createQuery("FROM Reimbursement WHERE ersType.reimbType = '"+type+"'", Reimbursement.class);
-		return q.list();
-	}
-	
-	public List<Reimbursement> selectByReimbursementStatus(String status) {
-		Session ses = HibernateUtil.getSession();
-		Query<Reimbursement> q = ses.createQuery("FROM Reimbursement WHERE ersStatus.status = '"+status+"'", Reimbursement.class);
-		return q.list();
-	}
-	
-	public List<Reimbursement> selectReimbursementToProcess(User sesUser){
-		Session ses = HibernateUtil.getSession();
-		int userRoleId;
-		try {
-			userRoleId = sesUser.getUserRole().getUserRoleId();
-		}catch(NullPointerException e) {
-			userRoleId = -1;
-		}
-		Query<Reimbursement> q = ses.createQuery("FROM Reimbursement WHERE author.userRole.userRoleId < '"+userRoleId+"'"+"AND author.userId <> '"+sesUser.getUserId()+"'", Reimbursement.class);
-		return q.list();
-	}
-	
-	public List<Reimbursement> selectReimbursementToProcess(User sesUser, String filter){
-		Session ses = HibernateUtil.getSession();
-		int userRoleId;
-		try {
-			userRoleId = sesUser.getUserRole().getUserRoleId();
-		}catch(NullPointerException e) {
-			userRoleId = -1;
-		}
-		Query<Reimbursement> q = ses.createQuery("FROM Reimbursement WHERE author.userRole.userRoleId < '"+userRoleId+"'"+"AND author.userId <> '"+sesUser.getUserId()+"' AND ersStatus.status = '"+filter+"'", Reimbursement.class);
-		return q.list();		
-	}
-	
-	public ReimbursementType getReimbursementTypeByName(String typeName) {
-		Session ses = HibernateUtil.getSession();
-		Query<ReimbursementType> q = ses.createQuery("FROM ReimbursementType WHERE reimbType = '"+typeName+"'", ReimbursementType.class);
-		List<ReimbursementType> rTypeList = q.list();
-		if(rTypeList.size() == 0) return null;
-		return rTypeList.get(0);
-	}
-	
-	public ReimbursementStatus getReimbursementStatusByName(String statusName) {
-		Session ses = HibernateUtil.getSession();
-		Query<ReimbursementStatus> q = ses.createQuery("FROM ReimbursementStatus WHERE status = '"+statusName+"'", ReimbursementStatus.class);
-		List<ReimbursementStatus> rStatusList = q.list();
-		if(rStatusList.size() == 0) return null;
-		return rStatusList.get(0);
-	}
-	
-	public void updateReimbursement(int rInt, User resUser, String resDate, ReimbursementStatus resStatus) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-		Reimbursement updateReimb = (Reimbursement)ses.get(Reimbursement.class, rInt);
-		updateReimb.setResolver(resUser);
-		updateReimb.setReimbResolved(resDate);
-		updateReimb.setErsStatus(resStatus);
+
+	@Override
+	public void createReimbursement(Reimbursement reimbursement) {
+		Session session = HibernateUtil.getSession();
+		Transaction tx = session.beginTransaction();
+		session.save(reimbursement);
 		tx.commit();
 	}
-		
+
+	@Override
+	public void updateReimbursement(Reimbursement reimbursement) {
+		Session session = HibernateUtil.getSession();
+		Transaction tx = session.beginTransaction();
+		session.merge(reimbursement);
+		tx.commit();
+	}
+
+	@Override
+	public void deleteReimbursement(Reimbursement reimbursement) {
+		Session session = HibernateUtil.getSession();
+		Transaction tx = session.beginTransaction();
+		session.delete(reimbursement);
+		tx.commit();
+	}
+
+	@Override
+	public void deleteReimbursementById(int id) {
+		Session session = HibernateUtil.getSession();
+		Reimbursement r = session.get(Reimbursement.class, id);
+		Transaction tx = session.beginTransaction();
+		session.delete(r);
+		tx.commit();
+	}
+
+	@Override
+	public void updateReimbursementByArgs(int id, ReimbursementType type, double amount, String submitteddate, String resolveddate, String description, ReimbursementStatus status, User employeeId, User manager) {
+		Session session = HibernateUtil.getSession();
+		Reimbursement r = new Reimbursement(id, type, amount, submitteddate, resolveddate, description, status, employeeId, manager);
+		Transaction tx = session.beginTransaction();
+		session.merge(r);
+		tx.commit();
+	}
+	
+	@Override
+	public List<Reimbursement> getAllPendingReimbursments() {
+		Session session = HibernateUtil.getSession();
+		List<Reimbursement> rList = session.createQuery("from Reimbursement where re_status_id = 3", Reimbursement.class).list();
+		return rList;
+	}
+
+	@Override
+	public List<Reimbursement> getAllAcceptedReimbursments() {
+		Session session = HibernateUtil.getSession();
+		List<Reimbursement> rList = session.createQuery("from Reimbursement where re_status_id = 4", Reimbursement.class).list();
+		return rList;
+	}
+	
+	@Override
+	public List<Reimbursement> getAllDeniedReimbursments() {
+		Session session = HibernateUtil.getSession();
+		List<Reimbursement> rList = session.createQuery("from Reimbursement where re_status_id = 5", Reimbursement.class).list();
+		return rList;
+	}
+	
+	@Override
+	public List<Reimbursement> getAllPendingReimbursmentsForUser(User u) {
+		Session session = HibernateUtil.getSession();
+		List<Reimbursement> rList = session.createQuery("from Reimbursement where re_status_id = 3", Reimbursement.class).list();
+		List<Reimbursement> result = new ArrayList<Reimbursement>();
+		for(Reimbursement curr:rList) {
+			if(curr.getEmployee()==u) {
+				result.add(curr);
+			}
+		}
+		return result;
+	}
+	
+	@Override
+	public List<Reimbursement> getAllAcceptedReimbursmentsForUser(User u) {
+		Session session = HibernateUtil.getSession();
+		List<Reimbursement> rList = session.createQuery("from Reimbursement where re_status_id = 4", Reimbursement.class).list();
+		List<Reimbursement> result = new ArrayList<Reimbursement>();
+		for(Reimbursement curr:rList) {
+			if(curr.getEmployee()==u) {
+				result.add(curr);
+			}
+		}
+		return result;
+	}
+	
+	@Override
+	public List<Reimbursement> getAllDeniedReimbursmentsForUser(User u) {
+		Session session = HibernateUtil.getSession();
+		List<Reimbursement> rList = session.createQuery("from Reimbursement where re_status_id = 5", Reimbursement.class).list();
+		List<Reimbursement> result = new ArrayList<Reimbursement>();
+		for(Reimbursement curr:rList) {
+			if(curr.getEmployee()==u) {
+				result.add(curr);
+			}
+		}
+		return result;
+	}
 }
